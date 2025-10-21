@@ -1,6 +1,3 @@
-"""
-Trusted Third Party сервер для генерации троек Бивера
-"""
 import logging
 from typing import Tuple
 import torch

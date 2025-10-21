@@ -1,6 +1,3 @@
-"""
-Утилиты для MPC протокола
-"""
 import os
 import sys
 import logging
@@ -8,7 +5,7 @@ import torch.distributed as dist
 
 
 def setup_logging(rank):
-    """Настройка логирования с rank"""
+    """Настройка логирования c rank"""
     logger = logging.getLogger()
     logger.setLevel(os.getenv("LOGLEVEL", "INFO"))
     

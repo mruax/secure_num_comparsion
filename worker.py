@@ -1,6 +1,3 @@
-"""
-Главный скрипт для MPC worker'ов
-"""
 import time
 import logging
 import argparse
@@ -52,9 +49,9 @@ def run_simple_demo():
         logger.info(f"Result: {a_val} > {b_val} = {is_positive}")
         
         if is_positive == (a_val > b_val):
-            logger.info("✓ Test PASSED")
+            logger.info("Test PASSED")
         else:
-            logger.error("✗ Test FAILED")
+            logger.error("Test FAILED")
     
     dist.destroy_process_group()
 
@@ -99,9 +96,9 @@ def run_multiple_tests():
             logger.info(f"Result: {a_val} > {b_val} = {result}")
             
             if result == expected:
-                logger.info("✓ PASSED")
+                logger.info("PASSED")
             else:
-                logger.error(f"✗ FAILED: expected {expected}, got {result}")
+                logger.error(f"FAILED: expected {expected}, got {result}")
         
         time.sleep(0.3)
     

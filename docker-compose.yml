@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   worker0:
     build: .
@@ -46,4 +44,3 @@ services:
 networks:
   mpc_network:
     driver: bridge
-    
