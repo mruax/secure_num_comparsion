@@ -7,7 +7,7 @@
 1. Worker 0 владеет числом a, Worker 1 владеет числом b
 2. Числа разделяются на секретные доли между участниками (аддитивное разделение по модулю 2^32)
 3. Вычисляется зашифрованная разница d = a - b локально на долях
-4. Разница восстанавливается и проверяется знак: a > b ⟺ d > 0
+4. Разница восстанавливается и проверяется знак: a > b и d > 0
 
 ## Запуск
 
@@ -54,3 +54,25 @@ worker0 exited with code 0
 worker1 exited with code 0
 ttp exited with code 0
 ```
+
+## post scriptum
+
+У меня также получался такой вывод:
+
+```bash
+ttp      | Traceback (most recent call last):
+ttp      |   File "/app/run_ttp.py", line 28, in <module>
+ttp      |     main()
+ttp      |   File "/app/run_ttp.py", line 21, in main
+ttp      |     ttp.run(num_triples=100)
+ttp      |   File "/app/ttp.py", line 73, in run
+ttp      |     dist.send(triple_tensor, dst=worker_rank)
+ttp      |   File "/usr/local/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py", line 1295, in send
+ttp      |     default_pg.send([tensor], dst, tag).wait()
+ttp      | RuntimeError: [../third_party/gloo/gloo/transport/tcp/pair.cc:598] Connection closed by peer [172.20.0.4]:7873
+worker0 exited with code 0
+worker1 exited with code 0
+ttp exited with code 1
+```
+
+Подозреваю, что ttp пытался отправлять тройки, которые worker'ы не запрашивают. По факту его можно просто завершать и переводить в режим ожидания.
