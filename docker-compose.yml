@@ -46,3 +46,4 @@ services:
 networks:
   mpc_network:
     driver: bridge
+    
