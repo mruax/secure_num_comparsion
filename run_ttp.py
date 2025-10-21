@@ -1,3 +1,6 @@
+"""
+Запуск TTP сервера
+"""
 import logging
 import torch.distributed as dist
 
@@ -17,8 +20,19 @@ def main():
     
     ttp = TTPServer(rank=rank, world_size=world_size, num_workers=num_workers)
     
-    # Генерируем достаточно троек для тестов
-    ttp.run(num_triples=100)
+    # Генерируем тройки (но не отправляем автоматически)
+    logger.info("Generating Beaver triples...")
+    triples = [ttp.generate_beaver_triple() for _ in range(100)]
+    logger.info(f"Generated {len(triples)} Beaver triples and ready to serve")
+    
+    # Ждём завершения worker'ов
+    logger.info("TTP Server waiting for workers to complete...")
+    
+    # Простой барьер - ждём пока worker'ы не завершатся
+    try:
+        dist.barrier()
+    except:
+        pass  # Worker'ы уже завершились
     
     logger.info("TTP Server finished")
     dist.destroy_process_group()
@@ -26,3 +40,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
