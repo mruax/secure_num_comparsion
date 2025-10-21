@@ -4,10 +4,10 @@ services:
   worker0:
     build: .
     container_name: worker0
-    command: python mpc.py tests
+    command: python worker.py tests
     environment:
       - RANK=0
-      - WORLD_SIZE=2
+      - WORLD_SIZE=3
       - MASTER_ADDR=worker0
       - MASTER_PORT=29500
       - LOGLEVEL=INFO
@@ -15,14 +15,28 @@ services:
       - mpc_network
     depends_on:
       - worker1
+      - ttp
 
   worker1:
     build: .
     container_name: worker1
-    command: python mpc.py tests
+    command: python worker.py tests
     environment:
       - RANK=1
-      - WORLD_SIZE=2
+      - WORLD_SIZE=3
+      - MASTER_ADDR=worker0
+      - MASTER_PORT=29500
+      - LOGLEVEL=INFO
+    networks:
+      - mpc_network
+
+  ttp:
+    build: .
+    container_name: ttp
+    command: python run_ttp.py
+    environment:
+      - RANK=2
+      - WORLD_SIZE=3
       - MASTER_ADDR=worker0
       - MASTER_PORT=29500
       - LOGLEVEL=INFO
