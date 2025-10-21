@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  worker0:
+    build: .
+    container_name: worker0
+    command: python mpc.py tests
+    environment:
+      - RANK=0
+      - WORLD_SIZE=2
+      - MASTER_ADDR=worker0
+      - MASTER_PORT=29500
+      - LOGLEVEL=INFO
+    networks:
+      - mpc_network
+    depends_on:
+      - worker1
+
+  worker1:
+    build: .
+    container_name: worker1
+    command: python mpc.py tests
+    environment:
+      - RANK=1
+      - WORLD_SIZE=2
+      - MASTER_ADDR=worker0
+      - MASTER_PORT=29500
+      - LOGLEVEL=INFO
+    networks:
+      - mpc_network
+
+networks:
+  mpc_network:
+    driver: bridge
