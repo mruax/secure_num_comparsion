@@ -1,6 +1,3 @@
-"""
-MPC протокол сравнения чисел
-"""
 from typing import Optional
 import torch
 import torch.distributed as dist
@@ -78,7 +75,7 @@ class MPCComparison:
     
     def to_binary_shares(self, arith_share: SecretShare) -> list:
         """Конвертация арифметической доли в двоичные доли"""
-        from secrets import BinaryShare
+        from mpc_secrets import BinaryShare
         bits = []
         value = arith_share.share
         for i in range(self.bit_length):

@@ -1,6 +1,3 @@
-"""
-Запуск TTP сервера
-"""
 import logging
 import torch.distributed as dist
 
